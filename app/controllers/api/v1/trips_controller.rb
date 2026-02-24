@@ -23,8 +23,9 @@ class Api::V1::TripsController < ApplicationController
     render json: { error: "Trip not found" }, status: :not_found
   end
 
-  def create
+ def create
     trip = Trip.new(trip_params)
+
     if trip.save
       render json: TripSerializer.new(trip).serializable_hash[:data][:attributes], status: :created
     else
@@ -35,6 +36,12 @@ class Api::V1::TripsController < ApplicationController
   private
 
   def trip_params
-    params.require(:trip).permit(:name, :image_url, :short_description, :long_description, :rating)
+    params.require(:trip).permit(
+      :name,
+      :image_url,
+      :short_description,
+      :long_description,
+      :rating
+    )
   end
 end
