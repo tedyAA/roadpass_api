@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :trips, only: [:index, :show]
-
+  resources :trips, only: [:index, :show, :new, :create]
   root "trips#index"
 
   namespace :api do

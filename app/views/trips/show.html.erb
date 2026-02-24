@@ -1,2 +1,15 @@
-<h1>Trips#show</h1>
-<p>Find me in app/views/trips/show.html.erb</p>
+<div style="max-width: 800px; margin: 40px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background-color: #f9f9f9;">
+  <h1 style="text-align: center; margin-bottom: 20px; color: #2c3e50;"><%= @trip.name %></h1>
+
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="<%= @trip.image_url %>" alt="<%= @trip.name %>" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  </div>
+
+  <p><strong>Short description:</strong> <%= @trip.short_description %></p>
+  <p><strong>Long description:</strong> <%= @trip.long_description %></p>
+  <p><strong>Rating:</strong> <%= @trip.rating %>/5</p>
+
+  <div style="margin-top: 20px;">
+    <%= link_to "Back to all trips", trips_path, style: "padding: 10px 20px; background-color: #27ae60; color: white; border-radius: 5px; text-decoration: none;" %>
+  </div>
+</div>
