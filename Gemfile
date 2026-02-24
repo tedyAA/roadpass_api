@@ -68,3 +68,4 @@ end
 
 gem 'kaminari'           # Pagination
 gem 'jsonapi-serializer' # JSON API serialization
+gem 'rack-cors'
