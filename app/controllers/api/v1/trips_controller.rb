@@ -6,14 +6,16 @@ class Api::V1::TripsController < ApplicationController
     trips = trips.order(params[:sort] == "desc" ? "rating desc" : "name asc")
     trips = trips.page(params[:page]).per(params[:per_page] || 10)
 
-    render json: {
-      trips: TripSerializer.new(trips).serializable_hash[:data].map { |t| t[:attributes] },
-      meta: {
-        current_page: trips.current_page,
-        total_pages: trips.total_pages,
-        total_count: trips.total_count
+    if stale?(etag: trips, last_modified: trips.maximum(:updated_at))
+      render json: {
+        trips: TripSerializer.new(trips).serializable_hash[:data].map { |t| t[:attributes] },
+        meta: {
+          current_page: trips.current_page,
+          total_pages: trips.total_pages,
+          total_count: trips.total_count
+        }
       }
-    }
+    end
   end
 
   def show

@@ -1,50 +1,57 @@
-<!-- app/views/trips/index.html.erb -->
+<h1 class="page-title">All Trips</h1>
 
-<h1 style="text-align: center; margin-bottom: 30px;">All Trips</h1>
+<!-- Filters -->
+<div class="filters-container">
+  <%= form_with url: trips_path,
+        method: :get,
+        local: true,
+        class: "filters-form",
+        html: { id: "filtersForm" } do %>
 
-<!-- Search / Filter / Sort Form -->
-<div style="max-width: 900px; margin: 0 auto 30px; text-align: center;">
-  <%= form_with url: trips_path, method: :get, local: true do %>
-    <input type="text" name="search" placeholder="Search by name" value="<%= params[:search] %>" style="padding: 5px; width: 200px; margin-right: 10px;">
+    <%= text_field_tag :search,
+          params[:search],
+          placeholder: "Search by name",
+          class: "input",
+          id: "searchInput" %>
 
-    <select name="min_rating" style="padding: 5px; margin-right: 10px;">
-      <option value="">Min Rating</option>
-      <% (1..5).each do |r| %>
-        <option value="<%= r %>" <%= 'selected' if params[:min_rating].to_i == r %>><%= r %>+</option>
-      <% end %>
-    </select>
+    <%= select_tag :min_rating,
+          options_for_select([["Min Rating", ""]] + (1..5).map { |r| ["#{r}+", r] }, params[:min_rating]),
+          class: "input",
+          onchange: "this.form.submit();" %>
 
-    <select name="sort" style="padding: 5px; margin-right: 10px;">
-      <option value="">Sort by</option>
-      <option value="asc" <%= 'selected' if params[:sort] == 'asc' %>>Rating Ascending</option>
-      <option value="desc" <%= 'selected' if params[:sort] == 'desc' %>>Rating Descending</option>
-    </select>
+    <%= select_tag :sort,
+          options_for_select([["Sort by", ""], ["Rating Ascending", "asc"], ["Rating Descending", "desc"]], params[:sort]),
+          class: "input",
+          onchange: "this.form.submit();" %>
 
-    <button type="submit" style="padding: 5px 15px; background-color: #2c3e50; color: white; border-radius: 5px; cursor: pointer;">Apply</button>
+    <%= link_to "Clear", trips_path, class: "btn btn-danger" %>
 
-    <!-- Clear Filters -->
-    <%= link_to "Clear Filters", trips_path, style: "padding: 5px 15px; background-color: #c0392b; color: white; border-radius: 5px; text-decoration: none; margin-left: 10px;" %>
   <% end %>
 </div>
-<div style="text-align: center; margin-bottom: 20px;">
-  <button id="openModalBtn" style="padding: 10px 20px; background-color: #27ae60; color: white; border-radius: 5px; cursor: pointer;">
+
+<div class="add-trip-container">
+  <button id="openModalBtn" class="btn btn-success">
     Add New Trip
   </button>
 </div>
-<!-- Trips Cards -->
-<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+
+<!-- Trips Grid -->
+<div class="trips-grid">
   <% @trips.each do |trip| %>
-    <div style="border: 1px solid #ddd; border-radius: 10px; width: 300px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s;">
-      <img src="<%= trip.image_url %>" alt="<%= trip.name %>" style="width: 100%; height: 200px; object-fit: cover;">
-      <div style="padding: 15px;">
-        <h2 style="font-size: 1.2rem; margin-bottom: 10px;">
-          <%= link_to trip.name, trip_path(trip), style: "text-decoration: none; color: #2c3e50;" %>
+    <div class="trip-card">
+      <img src="<%= trip.image_url %>" alt="<%= trip.name %>">
+
+      <div class="trip-content">
+        <h2>
+          <%= link_to trip.name, trip_path(trip) %>
         </h2>
-        <p style="font-size: 0.95rem; color: #555; margin-bottom: 10px;">
+
+        <p class="trip-description">
           <%= trip.short_description %>
         </p>
-        <p style="font-weight: bold; color: #e67e22;">
-          Rating: <%= trip.rating %>/5
+
+        <p class="trip-rating">
+          ⭐ <%= trip.rating %>/5
         </p>
       </div>
     </div>
@@ -52,65 +59,53 @@
 </div>
 
 <!-- Pagination -->
-<div style="text-align: center; margin-top: 30px;">
+<div class="pagination-container">
   <%= paginate @trips %>
 </div>
-<!-- Modal Background -->
-<div id="tripModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-     background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;">
-  
-  <!-- Modal Content -->
-  <div style="background: white; padding: 20px; border-radius: 10px; width: 500px; position: relative;">
-    <span id="closeModalBtn" style="position: absolute; top: 10px; right: 15px; cursor: pointer; font-weight: bold;">&times;</span>
 
-    <h2 style="text-align: center; margin-bottom: 20px;">Add a New Trip</h2>
+<!-- Modal -->
+<div id="tripModal" class="modal">
+  <div class="modal-content">
+    <span id="closeModalBtn" class="modal-close">&times;</span>
 
-    <%= form_with model: Trip.new, url: trips_path, local: true do |f| %>
-      <div style="margin-bottom: 10px;">
-        <%= f.label :name %><br>
-        <%= f.text_field :name, style: "width: 100%; padding: 5px;" %>
-      </div>
+    <h2>Add a New Trip</h2>
 
-      <div style="margin-bottom: 10px;">
-        <%= f.label :image_url, "Image URL" %><br>
-        <%= f.text_field :image_url, style: "width: 100%; padding: 5px;" %>
-      </div>
+    <%= form_with model: Trip.new, url: trips_path, local: true, class: "modal-form" do |f| %>
 
-      <div style="margin-bottom: 10px;">
-        <%= f.label :short_description %><br>
-        <%= f.text_field :short_description, style: "width: 100%; padding: 5px;" %>
-      </div>
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "input" %>
 
-      <div style="margin-bottom: 10px;">
-        <%= f.label :long_description %><br>
-        <%= f.text_area :long_description, rows: 4, style: "width: 100%; padding: 5px;" %>
-      </div>
+      <%= f.label :image_url, "Image URL" %>
+      <%= f.text_field :image_url, class: "input" %>
 
-      <div style="margin-bottom: 20px;">
-        <%= f.label :rating %><br>
-        <%= f.number_field :rating, in: 1..5, style: "width: 100px; padding: 5px;" %>
-      </div>
+      <%= f.label :short_description %>
+      <%= f.text_field :short_description, class: "input" %>
 
-      <%= f.submit "Create Trip", style: "padding: 10px 20px; background-color: #2c3e50; color: white; border-radius: 5px; cursor: pointer;" %>
+      <%= f.label :long_description %>
+      <%= f.text_area :long_description, rows: 4, class: "input" %>
+
+      <%= f.label :rating %>
+      <%= f.number_field :rating, in: 1..5, class: "input small" %>
+
+      <%= f.submit "Create Trip", class: "btn btn-primary full" %>
+
     <% end %>
   </div>
 </div>
+
 <script>
-  const openModalBtn = document.getElementById("openModalBtn");
-  const closeModalBtn = document.getElementById("closeModalBtn");
-  const tripModal = document.getElementById("tripModal");
+  const searchInput = document.getElementById("searchInput");
+  const form = document.getElementById("filtersForm");
 
-  openModalBtn.addEventListener("click", () => {
-    tripModal.style.display = "flex";
-  });
+  if (searchInput) {
+    let timeout = null;
 
-  closeModalBtn.addEventListener("click", () => {
-    tripModal.style.display = "none";
-  });
+    searchInput.addEventListener("input", function () {
+      clearTimeout(timeout);
 
-  window.addEventListener("click", (e) => {
-    if (e.target === tripModal) {
-      tripModal.style.display = "none";
-    }
-  });
+      timeout = setTimeout(() => {
+        form.submit();
+      }, 500); // waits 500ms after typing stops
+    });
+  }
 </script>
