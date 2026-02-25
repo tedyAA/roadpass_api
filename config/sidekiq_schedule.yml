@@ -1,0 +1,4 @@
+NightlyTripSummaryJob:
+  cron: "* * * * *"
+  class: NightlyTripSummaryJob
+  queue: default

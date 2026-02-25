@@ -69,3 +69,5 @@ end
 gem 'kaminari'           # Pagination
 gem 'jsonapi-serializer' # JSON API serialization
 gem 'rack-cors'
+gem 'sidekiq'
+gem 'sidekiq-scheduler'

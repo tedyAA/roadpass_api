@@ -1,0 +1,3 @@
+:queues:
+  - default
+:schedule: ./config/sidekiq_schedule.yml
