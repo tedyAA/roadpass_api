@@ -112,7 +112,29 @@
 
       timeout = setTimeout(() => {
         form.submit();
-      }, 500); // waits 500ms after typing stops
+      }, 500);
     });
   }
+  
+  const openModalBtn = document.getElementById("openModalBtn");
+  const closeModalBtn = document.getElementById("closeModalBtn");
+  const tripModal = document.getElementById("tripModal");
+
+  if (openModalBtn && tripModal) {
+    openModalBtn.addEventListener("click", () => {
+      tripModal.style.display = "flex";
+    });
+  }
+
+  if (closeModalBtn && tripModal) {
+    closeModalBtn.addEventListener("click", () => {
+      tripModal.style.display = "none";
+    });
+  }
+
+  window.addEventListener("click", (e) => {
+    if (e.target === tripModal) {
+      tripModal.style.display = "none";
+    }
+  });
 </script>
