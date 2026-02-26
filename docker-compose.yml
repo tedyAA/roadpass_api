@@ -4,12 +4,13 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: roadpass_development
     ports:
       - "5432:5432"
 
   web:
     build: .
-    command: rails server -b 0.0.0.0
+    command: bundle exec rails s -b 0.0.0.0
     volumes:
       - .:/app
     ports:

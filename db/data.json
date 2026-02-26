@@ -35,7 +35,7 @@
     {
       "id": 5,
       "name": "Mount Rushmore",
-      "image_url": "https://images.unsplash.com/photo-1586974772928-9e4d0efcc9ab",
+      "image_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
       "short_description": "Famous presidential monument carved into granite.",
       "long_description": "Sculpted into the Black Hills of South Dakota, Mount Rushmore features the faces of Washington, Jefferson, Roosevelt, and Lincoln. The monument took 14 years to complete and stands as a tribute to the nation’s founding, growth, and preservation.",
       "rating": 4
@@ -59,7 +59,7 @@
     {
       "id": 8,
       "name": "Cadillac Ranch",
-      "image_url": "https://images.unsplash.com/photo-1614463161951-c33c6bdb2d58",
+      "image_url": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29",
       "short_description": "Ten Cadillacs buried nose-first in the Texas desert.",
       "long_description": "A public art installation outside Amarillo, Cadillac Ranch was created in 1974 by a group called Ant Farm. The half-buried cars span the evolution of the Cadillac tailfin, and visitors are encouraged to add their own spray-painted art, keeping the exhibit ever-changing.",
       "rating": 4
@@ -67,7 +67,7 @@
     {
       "id": 9,
       "name": "Devils Tower",
-      "image_url": "https://images.unsplash.com/photo-1536334720751-0e4a3f2b7a0e",
+      "image_url": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29",
       "short_description": "Towering volcanic monolith in Wyoming.",
       "long_description": "Rising dramatically from the plains of Wyoming, Devils Tower is a striking natural formation revered by Native American tribes and known as the nation’s first national monument. Its fluted columns are a favorite among climbers and photographers alike.",
       "rating": 5
@@ -107,7 +107,7 @@
     {
       "id": 14,
       "name": "Mystery Spot",
-      "image_url": "https://images.unsplash.com/photo-1587502537745-84b80b1f3f19",
+      "image_url": "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
       "short_description": "Optical illusion attraction in Santa Cruz.",
       "long_description": "Since the 1940s, the Mystery Spot has baffled visitors with tilted rooms and gravity-defying effects. Whether a trick of perspective or something stranger, it remains one of California’s most enduring roadside curiosities.",
       "rating": 4
@@ -123,7 +123,7 @@
     {
       "id": 16,
       "name": "South of the Border",
-      "image_url": "https://images.unsplash.com/photo-1596484557299-8fc5d9aa66e9",
+      "image_url": "https://images.unsplash.com/photo-1503264116251-35a269479413",
       "short_description": "Neon roadside landmark along I-95.",
       "long_description": "Straddling the North Carolina–South Carolina line, South of the Border has been luring travelers for decades with its colorful billboards, giant sombrero tower, and kitschy charm. It’s equal parts nostalgic tourist trap and road trip rite of passage.",
       "rating": 3
