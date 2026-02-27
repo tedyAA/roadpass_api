@@ -1,47 +1,76 @@
 class TripsController < ApplicationController
+  before_action :set_trip, only: [:show]
+
   def index
     @trips = Trip.all
-
-    if params[:search].present?
-      @trips = @trips.where("LOWER(name) LIKE ?", "%#{params[:search].to_s.downcase}%")
-    end
-
-    if params[:min_rating].present?
-      @trips = @trips.where("rating >= ?", params[:min_rating].to_i)
-    end
-
-    sort_column, sort_order = if params[:sort].present? && %w[asc desc].include?(params[:sort].downcase)
-                               ['rating', params[:sort].downcase]
-                             else
-                               ['name', 'asc']
-                             end
-
-    @trips = @trips.order("#{sort_column} #{sort_order}")
-                   .page(params[:page])
-                   .per(params[:per_page] || 10)
-
-    render :index
+    @trips = apply_filters(@trips)
+    @trips = apply_sort(@trips)
+    @trips = @trips.page(params[:page]).per(params[:per_page] || 10)
   end
 
   def show
-    @trip = Trip.find_by(id: params[:id])
-    return redirect_to trips_path, alert: "Trip not found" unless @trip
+    unless @trip
+      flash[:alert] = "Trip not found"
+      redirect_to trips_path
+    end
   end
 
   def create
     @trip = Trip.new(trip_params)
 
     if @trip.save
-      redirect_to trips_path, notice: "Trip created successfully!"
+      flash[:notice] = "Trip created successfully!"
+      redirect_to trips_path
     else
-      @trips = Trip.all.page(params[:page]).per(params[:per_page] || 10)
+      flash.now[:alert] = @trip.errors.full_messages.join(", ")
+      @trips = Trip.all
+      @trips = apply_filters(@trips)
+      @trips = apply_sort(@trips)
+      @trips = @trips.page(params[:page]).per(params[:per_page] || 10)
       render :index, status: :unprocessable_entity
     end
   end
 
   private
 
+  def set_trip
+    @trip = Trip.find_by(id: params[:id])
+  end
+
   def trip_params
-    params.require(:trip).permit(:name, :image_url, :short_description, :long_description, :rating)
+    params.require(:trip).permit(
+      :name,
+      :image_url,
+      :short_description,
+      :long_description,
+      :rating
+    )
+  end
+
+  def apply_filters(scope)
+    filtered = scope
+    filtered =
+      filtered.where(
+        "LOWER(name) LIKE ?",
+        "%#{params[:search].to_s.downcase}%"
+      ) if params[:search].present?
+    filtered =
+      filtered.where("rating >= ?", params[:min_rating].to_i) if params[
+      :min_rating
+    ].present?
+    filtered
+  end
+
+  def apply_sort(scope)
+    case params[:sort]&.downcase
+    when "asc"
+      scope.order(rating: :asc)
+    when "desc"
+      scope.order(rating: :desc)
+    when "name_desc"
+      scope.order(name: :desc)
+    else
+      scope.order(name: :asc)
+    end
   end
 end

@@ -71,3 +71,4 @@ gem 'jsonapi-serializer' # JSON API serialization
 gem 'rack-cors'
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
+gem 'syntax_tree'
