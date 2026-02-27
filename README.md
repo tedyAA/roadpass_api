@@ -54,7 +54,7 @@ rails s
 ```
 The API will run at http://localhost:3000.
 
-##API Endpoints
+## API Endpoints
 
 | Method  | Path | Description |
 | ------------- | ------------- |------------- |
@@ -114,4 +114,21 @@ Run tests with:
 
 ```bash
 bundle exec rspec
+```
+## How to run with Docker
+
+```bash
+docker-compose up --build
+```
+
+## Background Job
+
+This project includes a background job that generates a summary of trip ratings.
+
+- The job is implemented in `app/jobs/nightly_trip_summary_job.rb`.
+
+To run the job: 
+
+```bash
+bundle exec sidekiq
 ```
