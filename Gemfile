@@ -72,3 +72,4 @@ gem 'rack-cors'
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
 gem 'syntax_tree'
+gem "rspec-rails", "~> 7.1", :groups => [:development, :test]
